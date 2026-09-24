@@ -1,0 +1,63 @@
+filebeat.inputs:
+  - type: filestream
+    id: logs-to-cloud
+    enabled: true
+    paths:
+      - "C:/Program Files/Filebeat/LogsToCloud/**/*"
+    fields:
+      log_source: cloud_logs
+      dataset_name: cloud_logs
+    fields_under_root: true
+
+  - type: filestream
+    id: kraggel-logs
+    enabled: true
+    paths:
+      - "C:/Users/OFFICIAL USE/Downloads/LogsTrial/kraggel/**/*"
+    fields:
+      log_source: kraggel
+      dataset_name: kraggel
+    fields_under_root: true
+
+
+output.elasticsearch:
+  hosts:
+    - "https://192.168.10.140:9200"
+  username: "filebeat_internal"
+  password: "***************"
+  ssl.certificate_authorities:
+    - C:/Program Files/Winlogbeat/ca.crt
+  # ROUTE LOGS TO DIFFERENT INDICES BASED ON DATASET_NAME
+  indices:
+    - index: "logs-cloud-logs-%{+yyyy.MM.dd}"
+      when.equals:
+        dataset_name: cloud_logs
+    - index: "logs-kraggel-%{+yyyy.MM.dd}"
+      when.equals:
+        dataset_name: kraggel
+
+
+setup.kibana:
+  host: "https://192.168.10.140:5601"
+  username: "filebeat_setup"
+  password: "****************"
+  ssl.certificate_authorities:
+    - C:/Program Files/Winlogbeat/ca.crt
+
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: true
+  reload.period: 10s
+
+setup.template.enabled: true
+setup.ilm.enabled: true
+setup.dashboards.enabled: false
+
+
+logging.to_files: true
+logging.files:
+  path: "C:/Program Files/Filebeat/Logs"
+  name: filebeat
+  keepfiles: 7
+
+logging.level: info
