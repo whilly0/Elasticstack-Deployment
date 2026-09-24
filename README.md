@@ -8,7 +8,7 @@ The project began with installing Docker on a Linux server. Docker was then used
 
 Winlogbeat was used to collect Windows Application, System, and Security Event Logs. Filebeat was used to collect custom logs from selected local folders. Both Beats were configured to send logs to Elasticsearch, where they could be searched, filtered, and analyzed in Kibana.
 
-> Configuration files are not included in this repository yet. They will be uploaded later after sensitive information such as passwords, usernames, certificate paths, and environment-specific values have been replaced with safe placeholders.
+> Configuration files were included in this repository. They sensitive information such as passwords, usernames, certificate paths, and environment-specific values have been replaced with safe placeholders so you edit that part when making use of the configurations.
 
 ## Project Objectives
 
@@ -29,7 +29,7 @@ The objectives of this project were to:
 ## Architecture
 
 ```text
-Windows Endpoint: CHEDDAR
+Windows Endpoint: CYBERDEMI
 │
 ├── Winlogbeat
 │   ├── Application Event Logs
@@ -76,11 +76,11 @@ Linux Elastic Server: 192.168.10.140
 
 | Component | Details |
 |---|---|
-| Linux Elastic Server IP | `192.168.10.140` |
-| Windows endpoint hostname | `CHEDDAR` |
+| Linux Elastic Server IP | `YOUR_ELASTICSEARCH_HOST` |
+| Windows endpoint hostname | `CYBERDEMI` |
 | Windows operating system | Windows 11 Pro |
-| Elasticsearch port | `9200` |
-| Kibana port | `5601` |
+| Elasticsearch port | `YOUR_ELASTICSEARCH_HOST_PORT` |
+| Kibana port | `YOUR_KIBANA_PORT` |
 | Winlogbeat version | `8.12.0` |
 | Elasticsearch nodes | `es01`, `es02`, `es03` |
 | Kibana container | `kib01` |
@@ -213,14 +213,14 @@ The Docker output confirmed that:
 - Kibana was running.
 - Elasticsearch nodes were running.
 - The primary Elasticsearch node was healthy.
-- Elasticsearch was exposed on port `9200`.
-- Kibana was exposed on port `5601`.
+- Elasticsearch was exposed on port `YOUR_ELASTICSEARCH_HOST_PORT`.
+- Kibana was exposed on port `YOUR_KIBANA_HOST_PORT`.
 
 The services were accessible through:
 
 ```text
-Elasticsearch: [https://192.168.10.140:9200](https://192.168.10.140:9200)
-Kibana:        [https://192.168.10.140:5601](https://192.168.10.140:5601)
+Elasticsearch: [https://YOUR_ELASTICSEARCH_HOST](https://YOUR_ELASTICSEARCH_HOST)
+Kibana:        [https://YOUR_KIBANA_HOST](https://YOUR_KIBANA_HOST)
 ```
 
 # Checking Elasticsearch Cluster Health
@@ -286,7 +286,7 @@ Kibana was then used as the web interface for:
 The Linux Elastic server used the following IP address:
 
 ```text
-192.168.10.140
+YOUR__HOST_IP
 ```
 
 The server IP address was checked using:
@@ -298,13 +298,13 @@ hostname -I
 The Windows endpoint was required to reach:
 
 ```text
-192.168.10.140:9200
+YOUR_ELASTICSEARCH_HOST
 ```
 
 for Elasticsearch communication and:
 
 ```text
-192.168.10.140:5601
+YOUR_KIBANA_HOST
 ```
 
 for Kibana communication.
@@ -324,7 +324,7 @@ The test confirmed that:
 Winlogbeat was installed on the Windows 11 endpoint named:
 
 ```text
-CHEDDAR
+CYBERDEMI
 ```
 
 Winlogbeat was used to collect Windows Event Logs and forward them to Elasticsearch.
@@ -393,9 +393,9 @@ The following troubleshooting steps were carried out:
 
 1. Checked the Elastic server IP address.
 2. Checked that the Kibana Docker container was running.
-3. Verified that Docker exposed port `5601`.
+3. Verified that Docker exposed port `YOUR_KIBANA_HOST_PORT`.
 4. Checked the Kibana API status locally on the Linux server.
-5. Tested connectivity from the Windows endpoint to port `5601`.
+5. Tested connectivity from the Windows endpoint to port `YOUR_KIBANA_HOST_PORT`.
 6. Accessed the Kibana status API from the Windows endpoint.
 7. Confirmed that Kibana was available.
 
@@ -404,7 +404,7 @@ The final tests confirmed that:
 - Kibana was running.
 - The Kibana API returned an available status.
 - The Windows endpoint could access Kibana.
-- Port `5601` was reachable.
+- Port `YOUR_KIBANA_HOST_PORT` was reachable.
 - The Linux server IP address was correct.
 
 # Filebeat Implementation
@@ -462,7 +462,7 @@ Data views can be used for:
 
 - Winlogbeat Windows Event Logs.
 - Filebeat custom log files.
-- Logs from the Windows host `CHEDDAR`.
+- Logs from the Windows host `CYBERDEMI`.
 - Windows Security events.
 - Windows System events.
 - Windows Application events.
@@ -499,26 +499,7 @@ The following results were confirmed during the implementation:
 - Winlogbeat and Filebeat configurations could be tested before service startup.
 - Logs could be centrally searched and analyzed in Kibana.
 
-# Future Improvements
 
-Future improvements for this project include:
-
-- Uploading sanitized Winlogbeat configuration files.
-- Uploading sanitized Filebeat configuration files.
-- Uploading the Docker Compose deployment file after removing secrets.
-- Adding screenshots of the Elasticsearch cluster.
-- Adding screenshots of Kibana Discover.
-- Adding screenshots of Winlogbeat logs.
-- Adding screenshots of Filebeat custom logs.
-- Creating dashboards for Windows Event Logs.
-- Creating dashboards for custom Filebeat logs.
-- Creating alerts for failed login attempts.
-- Creating alerts for service failures.
-- Adding Sysmon for advanced Windows endpoint monitoring.
-- Configuring Index Lifecycle Management policies.
-- Adding role-based access control.
-- Using environment variables or a secrets manager for sensitive values.
-- Adding Logstash for more advanced log parsing.
 
 # Repository Structure
 
@@ -545,24 +526,7 @@ Configuration files will be added after all sensitive information has been remov
 
 # Security Notice
 
-The following items should not be uploaded to a public GitHub repository:
 
-- Elasticsearch usernames.
-- Elasticsearch passwords.
-- Kibana usernames.
-- Kibana passwords.
-- API keys.
-- Private certificates.
-- Private certificate keys.
-- Internal certificate authority files.
-- `.env` files containing secrets.
-- Production log files.
-- Winlogbeat registry files.
-- Filebeat registry files.
-- Sensitive Windows Event Logs.
-- Sensitive IP addresses, if required by organizational policy.
-
-Before uploading configuration files, replace sensitive values with placeholders such as:
 
 ```text
 YOUR_ELASTICSEARCH_HOST
@@ -575,3 +539,10 @@ PATH_TO_CA_CERTIFICATE
 # Author
 
 This project was completed as a hands-on implementation of centralized Windows log collection and monitoring
+
+## Documentation
+
+- [Docker Installation](docker-installation.md)
+- [Elasticsearch and Kibana Deployment](elasticsearch-installation.md)
+- [Winlogbeat Setup](winlogbeat-setup.md)
+- [Filebeat Setup](filebeat-setup.md)
