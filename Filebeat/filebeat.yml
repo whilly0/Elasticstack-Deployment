@@ -22,9 +22,9 @@ filebeat.inputs:
 
 output.elasticsearch:
   hosts:
-    - "https://192.168.10.140:9200"
+    - "https://YOUR_ELASTICSEARCH_HOST:PORT"
   username: "filebeat_internal"
-  password: "***************"
+  password: "YOUR_FILEBEAT_INTERNAL_PAASWORD"
   ssl.certificate_authorities:
     - C:/Program Files/Winlogbeat/ca.crt
   # ROUTE LOGS TO DIFFERENT INDICES BASED ON DATASET_NAME
@@ -38,9 +38,9 @@ output.elasticsearch:
 
 
 setup.kibana:
-  host: "https://192.168.10.140:5601"
+  host: "https://`YOUR_KIBANA_HOST:PORT`"
   username: "filebeat_setup"
-  password: "****************"
+  password: "YOUR_FILEBEAT_SETUP_PASSWORD"
   ssl.certificate_authorities:
     - C:/Program Files/Winlogbeat/ca.crt
 
