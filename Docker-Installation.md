@@ -32,4 +32,4 @@ sudo docker run hello-world
 
 ## Setup Complete
 
-Your Linux server is ready to deploy the Elastic Stack with Docker.
+The Linux server is ready to deploy the Elastic Stack with Docker.
