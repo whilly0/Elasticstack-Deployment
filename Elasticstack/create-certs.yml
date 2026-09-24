@@ -1,0 +1,58 @@
+
+services:
+  create_certs:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${VERSION}
+    container_name: create_certs
+    user: "0"
+
+    working_dir: /usr/share/elasticsearch
+
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+
+        if [ ! -f /certs/ca/ca.crt ]; then
+          echo "Generating CA..."
+
+          bin/elasticsearch-certutil ca \
+            --silent \
+            --pem \
+            --out /certs/ca.zip
+
+          unzip -q /certs/ca.zip -d /certs
+        fi
+
+        if [ ! -f /certs/bundle.zip ]; then
+          echo "Generating node certificates..."
+
+          bin/elasticsearch-certutil cert \
+            --silent \
+            --pem \
+            --in /usr/share/elasticsearch/config/certificates/instances.yml \
+            --out /certs/bundle.zip \
+            --ca-cert /certs/ca/ca.crt \
+            --ca-key /certs/ca/ca.key
+
+          unzip -q /certs/bundle.zip -d /certs
+        fi
+
+        chown -R 1000:0 /certs
+
+        echo "Certificates created successfully."
+
+    volumes:
+      - certs:/certs
+      - .:/usr/share/elasticsearch/config/certificates:ro
+
+    networks:
+      - elastic
+
+volumes:
+  certs:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
