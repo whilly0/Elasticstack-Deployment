@@ -55,9 +55,9 @@ This guide uses placeholder variables that you must replace with your actual val
 
 | Placeholder | Description | Example |
 |---|---|---|
-| `[SERVER_IP]` | IP address of your Elasticsearch/Kibana server | `192.168.10.140` |
+| `[SERVER_IP]` | IP address of your Elasticsearch/Kibana server | `192.168.20.125` |
 | `[ENDPOINT_HOSTNAME]` | Windows endpoint hostname | `CYBERDEMI` |
-| `[LINUX_USERNAME]` | Username on Linux server | `joseph` |
+| `[LINUX_USERNAME]` | Username on Linux server | `Percy` |
 | `[ES_INTERNAL_USER]` | Elasticsearch internal user for Winlogbeat | `winlogbeat_internal` |
 | `[ES_INTERNAL_PASSWORD]` | Password for Elasticsearch internal user | (your actual password) |
 | `[KIBANA_SETUP_USER]` | Kibana user for dashboard setup | `winlogbeat_setup` |
