@@ -235,7 +235,7 @@ Test that Winlogbeat can connect to Elasticsearch:
 
 **Expected output:**
 ```text
-elasticsearch: 192.168.10.140:9200...
+elasticsearch: SEVER-IP:9200...
   parse url... OK
   connection...
     TLS...
@@ -247,7 +247,7 @@ elasticsearch: 192.168.10.140:9200...
 
 If the connection test fails, verify:
 - Elasticsearch is running on the Linux server
-- The IP address (192.168.10.140) is correct
+- The IP address (SERVER-IP) is correct
 - Firewall allows outbound connections to port 9200
 - The CA certificate file is in the correct location
 - Credentials are correct
@@ -444,7 +444,7 @@ PowerShell.exe -ExecutionPolicy Bypass -File .\uninstall-service-winlogbeat.ps1
    ```bash
    docker compose -f elastic-docker-tls.yml ps
    ```
-2. Verify the IP address is correct (192.168.10.140)
+2. Verify the IP address is correct (SEVER-IP)
 3. Verify the CA certificate is in the correct location:
    ```powershell
    ls "C:\Program Files\Winlogbeat\ca.crt"
