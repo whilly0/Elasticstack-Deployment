@@ -500,30 +500,6 @@ The following results were confirmed during the implementation:
 - Logs could be centrally searched and analyzed in Kibana.
 
 
-
-# Repository Structure
-
-The repository will later use a structure similar to this:
-
-```text
-.
-├── README.md
-├── docs/
-│   ├── architecture.md
-│   ├── installation.md
-│   ├── troubleshooting.md
-│   └── screenshots/
-├── docker/
-│   └── README.md
-├── winlogbeat/
-│   └── README.md
-├── filebeat/
-│   └── README.md
-└── .gitignore
-```
-
-Configuration files will be added after all sensitive information has been removed.
-
 # Security Notice
 
 
@@ -542,7 +518,7 @@ This project was completed as a hands-on implementation of centralized Windows l
 
 ## Documentation
 
-- [Docker Installation](docker-installation.md)
+- [Docker Installation](Docker-Installation.md)
 - [Elasticsearch and Kibana Deployment](Elastistack)
 - [Winlogbeat Setup](Winlogbeat)
 - [Filebeat Setup](Filebeat)
