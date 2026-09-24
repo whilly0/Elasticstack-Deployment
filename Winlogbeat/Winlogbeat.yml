@@ -1,0 +1,35 @@
+winlogbeat.event_logs:
+## I added time(ignore_older:168h) to reduce the amlunt of logs ingest inyo elasticsearch due to memory capacity
+  - name: Application
+    ignore_older: 168h
+
+  - name: System
+    ignore_older: 168h
+
+  - name: Security
+    ignore_older: 168h
+
+output.elasticsearch:
+  hosts: ["https://192.168.10.140:9200"]
+  username: "winlogbeat_internal"
+  password: "SQW8jiEBz08LtMd28BfJ"
+  ssl.certificate_authorities:
+    - C:\Program Files\Winlogbeat\ca.crt
+
+setup.kibana:
+  host: "https://192.168.10.140:5601"
+  username: "winlogbeat_setup"
+  password: "SQW8jiEBz08LtMd28BfJ"
+  ssl.certificate_authorities:
+    - C:\Program Files\Winlogbeat\ca.crt
+
+logging.to_files: true
+logging.files:
+  path: C:\Program Files\Winlogbeat\logs
+  name: winlogbeat
+  keepfiles: 7
+
+logging.level: info
+
+setup.dashboards.enabled: true
+setup.template.enabled: true
