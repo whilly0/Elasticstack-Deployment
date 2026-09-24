@@ -31,3 +31,7 @@ instances:
     ip:
       - 127.0.0.1
       - HOST-SERVER-IP
+
+
+
+## Replace the HOST-SERVER-IP with you server ip address
