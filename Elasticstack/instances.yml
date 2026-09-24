@@ -1,0 +1,33 @@
+
+instances:
+  - name: es01
+    dns:
+      - es01
+      - elastic-server.local
+      - localhost
+    ip:
+      - 127.0.0.1
+      - HOST-SERVER-IP
+
+  - name: es02
+    dns:
+      - es02
+      - localhost
+    ip:
+      - 127.0.0.1
+
+  - name: es03
+    dns:
+      - es03
+      - localhost
+    ip:
+      - 127.0.0.1
+
+  - name: 'kib01'
+    dns:
+      - kib01
+      - localhost
+      - elastic-server.local
+    ip:
+      - 127.0.0.1
+      - HOST-SERVER-IP
