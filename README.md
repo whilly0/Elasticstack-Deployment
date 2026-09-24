@@ -519,6 +519,6 @@ This project was completed as a hands-on implementation of centralized Windows l
 ## Documentation
 
 - [Docker Installation](Docker-Installation.md)
-- [Elasticsearch and Kibana Deployment](Elastistack)
+- [Elasticsearch and Kibana Deployment](Elasticstack)
 - [Winlogbeat Setup](Winlogbeat)
 - [Filebeat Setup](Filebeat)
