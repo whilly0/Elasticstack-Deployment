@@ -438,6 +438,6 @@ docker exec -it es01 /bin/bash
 
 After successful deployment:
 
-1.[ **Install Winlogbeat** on your Windows endpoint](Winlogbeat)
+1.[ **Install Winlogbeat** on your Windows endpoint](winlogbeat)
 
 
