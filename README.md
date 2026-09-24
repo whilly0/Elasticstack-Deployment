@@ -1,6 +1,6 @@
 # Elasticstack-Deployment
 
-# Centralized Windows Log Monitoring with Elastic Stack
+# Centralized Windows and Custom Log Monitoring with Elastic Stack
 
 This project documents the installation and deployment of a centralized log collection and monitoring environment using Docker, Elasticsearch, Kibana, Winlogbeat, and Filebeat.
 
