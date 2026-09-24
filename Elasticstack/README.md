@@ -67,7 +67,7 @@ The `instances.yml` file defines the certificate Subject Alternative Names (SANs
 This file should be in your project directory and include entries for:
 - All three Elasticsearch nodes (es01, es02, es03)
 - Kibana (kib01)
-- Your server IP address (192.168.10.140)
+- Your server IP address 
 
 ### Step 3: Create create-certs.yml (Certificate Generation)
 
@@ -92,7 +92,7 @@ Wait for the operation to complete. The certificates will be stored in the `es_c
 
 ### Step 5: Verify Certificate Subject Alternative Names (IMPORTANT)
 
-Before starting the cluster, verify that your server IP address (192.168.10.140) is included in the certificates. This is critical for TLS connectivity.
+Before starting the cluster, verify that your server IP address is included in the certificates. This is critical for TLS connectivity.
 
 #### Verify Elasticsearch Certificate SANs
 
@@ -116,10 +116,10 @@ Both commands should include your server IP address:
 
 ```text
 X509v3 Subject Alternative Name:
-    DNS:es01, DNS:es02, DNS:es03, DNS:kib01, IP Address:192.168.10.140
+    DNS:es01, DNS:es02, DNS:es03, DNS:kib01, IP Address:
 ```
 
-**Important:** If `192.168.10.140` is not present, regenerate the certificates and update your `instances.yml` file to include the correct IP address.
+**Important:** If `your ip a` is not present, regenerate the certificates and update your `instances.yml` file to include the correct IP address.
 
 ### Step 6: Create elastic-docker-tls.yml (Main Cluster Configuration)
 
@@ -140,12 +140,10 @@ This file should be in your project directory.
 The `.env` file defines environment variables used by the Docker Compose deployment:
 
 Key variables include:
-- `STACK_VERSION` - Elasticsearch/Kibana version (e.g., 8.12.0)
-- `ES_PORT` - Elasticsearch port (default: 9200)
-- `KIBANA_PORT` - Kibana port (default: 5601)
-- `CLUSTER_NAME` - Elasticsearch cluster name
-- `MEM_LIMIT` - Memory limit for containers
-- `ELASTIC_PASSWORD` - Initial password for the elastic user (set later)
+- `VERSION` - Elasticsearch/Kibana version (e.g., 8.12.0)
+- `COMPOSE_PROJECT_NAME` - 
+- `CERTS_DIR` 
+
 
 This file should be in your project directory.
 
@@ -257,7 +255,7 @@ This creates an `exported-certs/ca.crt` file that can be transferred to your Win
 
 After generating passwords in Step 11, you can access Kibana:
 
-- **URL:** https://192.168.10.140:5601
+- **URL:** https:YOUR_ELASTIC_SEVER_IP:5601
 - **Username:** elastic
 - **Password:** (from Step 11 output)
 
@@ -286,7 +284,7 @@ Alternatively, use the Elasticsearch API to create users.
 ### Kibana
 
 ```text
-URL:      https://192.168.10.140:5601
+URL:      https://YOUR_ELASTIC_SERVER_IP:5601
 Username: elastic
 Password: (generated in Step 11)
 ```
@@ -294,7 +292,7 @@ Password: (generated in Step 11)
 ### Elasticsearch
 
 ```text
-URL:      https://192.168.10.140:9200
+URL:      https://YOUR_ELASTIC_SERVER_IP:9200
 Username: elastic
 Password: (generated in Step 11)
 ```
@@ -440,26 +438,6 @@ docker exec -it es01 /bin/bash
 
 After successful deployment:
 
-1. **Install Winlogbeat** on your Windows endpoint
+1. **Install Winlogbeat** on your Windows endpoint(Winlogbeat)
 
-## References
 
-- [Elastic Docker Documentation](https://www.elastic.co/docs/deploy-manage/deploy/self-managed/install-elasticsearch-docker-compose)
-- [Elasticsearch Docker Guide](https://www.elastic.co/guide/en/elasticsearch/reference/8.19/docker.html)
-- [Kibana Docker Guide](https://www.elastic.co/guide/en/kibana/current/docker.html)
-- [Security Configuration](https://www.elastic.co/guide/en/elasticsearch/reference/current/configuring-security.html)
-
-## Deployment Completion Checklist
-
-- [ ] Docker and Docker Compose installed
-- [ ] Project directory created at `~/Elastic-Stack/ElasticMN`
-- [ ] Configuration files copied (instances.yml, create-certs.yml, elastic-docker-tls.yml, .env)
-- [ ] Certificates generated successfully
-- [ ] Certificate SANs verified (IP 192.168.10.140 included)
-- [ ] Elasticsearch cluster started and healthy
-- [ ] Kibana running and accessible
-- [ ] Built-in user passwords generated and saved
-- [ ] CA certificate exported for Windows
-- [ ] Dedicated users created for log ingestion
-- [ ] Elasticsearch accessible at https://192.168.10.140:9200
-- [ ] Kibana accessible at https://192.168.10.140:5601
