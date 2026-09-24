@@ -32,11 +32,11 @@ These logs provide useful information for:
 
 ### System Requirements
 
-- Windows 11 endpoint (hostname: `CYBERDEMI`)
+- Windows 11 endpoint (hostname: `[ENDPOINT_HOSTNAME]`)
 - Administrator access (required for service installation)
 - PowerShell (preferably version 5.0 or later)
-- Network connectivity to Elasticsearch (YOUR_ELASTIC-SERVER-IP:9200)
-- Network connectivity to Kibana (YOUR_ELASTIC_SEVER_IP:5601)
+- Network connectivity to Elasticsearch (`[SERVER_IP]:9200`)
+- Network connectivity to Kibana (`[SERVER_IP]:5601`)
 
 ### Required Files and Information
 
@@ -44,7 +44,28 @@ These logs provide useful information for:
 - CA certificate file (`ca.crt`) from your Linux server
 - Elasticsearch credentials (username and password)
 - Kibana setup credentials
-- Elasticsearch server IP address: `192.168.10.140`
+- Elasticsearch server IP address: `[SERVER_IP]`
+- Linux server username: `[LINUX_USERNAME]`
+- Elasticsearch internal user: `[ES_INTERNAL_USER]`
+- Kibana setup user: `[KIBANA_SETUP_USER]`
+
+## Placeholder Variables Reference
+
+This guide uses placeholder variables that you must replace with your actual values. Below is a reference for all placeholders used:
+
+| Placeholder | Description | Example |
+|---|---|---|
+| `[SERVER_IP]` | IP address of your Elasticsearch/Kibana server | `192.168.10.140` |
+| `[ENDPOINT_HOSTNAME]` | Windows endpoint hostname | `CYBERDEMI` |
+| `[LINUX_USERNAME]` | Username on Linux server | `joseph` |
+| `[ES_INTERNAL_USER]` | Elasticsearch internal user for Winlogbeat | `winlogbeat_internal` |
+| `[ES_INTERNAL_PASSWORD]` | Password for Elasticsearch internal user | (your actual password) |
+| `[KIBANA_SETUP_USER]` | Kibana user for dashboard setup | `winlogbeat_setup` |
+| `[KIBANA_SETUP_PASSWORD]` | Password for Kibana setup user | (your actual password) |
+| `[ELASTICSEARCH_USERNAME]` | Elasticsearch admin/elastic user | `elastic` |
+| `[ELASTICSEARCH_PASSWORD]` | Password for Elasticsearch admin user | (your actual password) |
+
+**Important:** Replace all instances of these placeholders with your actual values before executing any commands or configurations.
 
 ## Step-by-Step Installation
 
@@ -97,11 +118,11 @@ Copy the CA certificate file (`ca.crt`) from your Linux server to the Winlogbeat
 Using `scp` (Secure Copy Protocol):
 
 ```powershell
-scp joseph@192.168.10.140:/home/joseph/Elastic-Stack/ElasticMN/exported-certs/ca.crt `
+scp [LINUX_USERNAME]@[SERVER_IP]:/home/[LINUX_USERNAME]/Elastic-Stack/ElasticMN/exported-certs/ca.crt `
   "C:\Program Files\Winlogbeat\ca.crt"
 ```
 
-When prompted, enter the password for the `joseph` user on your Linux server.
+When prompted, enter the password for the `[LINUX_USERNAME]` user on your Linux server.
 
 **Expected output:**
 ```text
@@ -143,9 +164,9 @@ Configure Elasticsearch as the output destination:
 
 ```yaml
 output.elasticsearch:
-  hosts: ["192.168.10.140:9200"]
-  username: "winlogbeat_internal"
-  password: "your_password_here"
+  hosts: ["[SERVER_IP]:9200"]
+  username: "[ES_INTERNAL_USER]"
+  password: "[ES_INTERNAL_PASSWORD]"
   ssl:
     enabled: true
     certificate_authorities: "C:\\Program Files\\Winlogbeat\\ca.crt"
@@ -153,7 +174,9 @@ output.elasticsearch:
 ```
 
 **Replace:**
-- `"your_password_here"` with the actual password for the `winlogbeat_internal` user
+- `[SERVER_IP]` with your Elasticsearch server IP address
+- `[ES_INTERNAL_USER]` with the Elasticsearch internal user (e.g., `winlogbeat_internal`)
+- `[ES_INTERNAL_PASSWORD]` with the actual password for the internal user
 
 #### 5.3 Kibana Section - Dashboard Setup
 
@@ -161,9 +184,9 @@ Configure Kibana for dashboard and index pattern setup:
 
 ```yaml
 setup.kibana:
-  host: "192.168.10.140:5601"
-  username: "winlogbeat_setup"
-  password: "your_setup_password_here"
+  host: "[SERVER_IP]:5601"
+  username: "[KIBANA_SETUP_USER]"
+  password: "[KIBANA_SETUP_PASSWORD]"
   ssl:
     enabled: true
     certificate_authorities: "C:\\Program Files\\Winlogbeat\\ca.crt"
@@ -171,7 +194,9 @@ setup.kibana:
 ```
 
 **Replace:**
-- `"your_setup_password_here"` with the actual password for the `winlogbeat_setup` user
+- `[SERVER_IP]` with your Kibana server IP address
+- `[KIBANA_SETUP_USER]` with the Kibana setup user (e.g., `winlogbeat_setup`)
+- `[KIBANA_SETUP_PASSWORD]` with the actual password for the setup user
 
 #### 5.4 Index Lifecycle Management (ILM)
 
@@ -287,8 +312,8 @@ If the status shows `Stopped`, check the logs for errors:
 ### Accessing Kibana
 
 1. Open a web browser on a computer with network access to your Linux server
-2. Navigate to: `https://192.168.10.140:5601`
-3. Log in with your Elasticsearch credentials (username: `elastic`)
+2. Navigate to: `https://[SERVER_IP]:5601`
+3. Log in with your Elasticsearch credentials (username: `elastic` or `[ELASTICSEARCH_USERNAME]`)
 
 ### Viewing Collected Data
 
@@ -303,7 +328,7 @@ If the status shows `Stopped`, check the logs for errors:
 
 In Kibana's Discover interface, you can filter Windows Event Logs by:
 
-- **Host name:** `CYBERDEMI`
+- **Host name:** `[ENDPOINT_HOSTNAME]`
 - **Event channel:** Application, System, or Security
 - **Event ID:** Specific Windows event numbers
 - **User name:** Windows user accounts
@@ -314,7 +339,7 @@ In Kibana's Discover interface, you can filter Windows Event Logs by:
 
 **Filter by hostname:**
 ```text
-host.name: "CYBERDEMI"
+host.name: "[ENDPOINT_HOSTNAME]"
 ```
 
 **Filter by Security events:**
@@ -426,7 +451,7 @@ PowerShell.exe -ExecutionPolicy Bypass -File .\uninstall-service-winlogbeat.ps1
    ```
 4. Verify firewall allows outbound connections to port 9200:
    ```powershell
-   Test-NetConnection 192.168.10.140 -Port 9200
+   Test-NetConnection [SERVER_IP] -Port 9200
    ```
 5. Test the output connection:
    ```powershell
@@ -464,7 +489,7 @@ PowerShell.exe -ExecutionPolicy Bypass -File .\uninstall-service-winlogbeat.ps1
    ```
 4. Verify Elasticsearch is receiving data:
    ```text
-   curl -k -u elastic:password https://192.168.10.140:9200/_cat/indices?v
+   curl -k -u [ELASTICSEARCH_USERNAME]:[ELASTICSEARCH_PASSWORD] https://[SERVER_IP]:9200/_cat/indices?v
    ```
    Look for indices like `winlogbeat-*`
 
@@ -498,7 +523,7 @@ PowerShell.exe -ExecutionPolicy Bypass -File .\uninstall-service-winlogbeat.ps1
    ```
 2. Re-copy the certificate from the Linux server:
    ```powershell
-   scp joseph@192.168.10.140:/home/joseph/Elastic-Stack/ElasticMN/exported-certs/ca.crt `
+   scp [LINUX_USERNAME]@[SERVER_IP]:/home/[LINUX_USERNAME]/Elastic-Stack/ElasticMN/exported-certs/ca.crt `
      "C:\Program Files\Winlogbeat\ca.crt"
    ```
 3. Verify certificate has correct permissions (should be readable)
@@ -534,4 +559,3 @@ After successful Winlogbeat deployment:
 4. Configure dashboards for Application events
 5. Review System event logs for errors and warnings
 6. Deploy Filebeat on additional endpoints for additional log sources
-
